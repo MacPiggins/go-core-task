@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/sha256"
 	"fmt"
+	"strings"
 )
 
 func ttos(value any) string {
@@ -10,15 +11,15 @@ func ttos(value any) string {
 }
 
 func vtoa(value any) string {
-	return fmt.Sprintf("%v", value)
+	return fmt.Sprint(value)
 }
 
 func combine(values ...any) string {
-	result := ""
+	var result strings.Builder
 	for _, value := range values {
-		result += vtoa(value)
+		result.WriteString(vtoa(value))
 	}
-	return result
+	return result.String()
 }
 
 func toRunes(str string) []rune {
@@ -39,15 +40,16 @@ func main() {
 	var isActive bool = true          // Тип bool
 	var complexNum complex64 = 1 + 2i // Тип complex64
 
-	fmt.Printf("numDecimal type is %s \n", ttos(numDecimal))
-	fmt.Printf("numOctal type is %s \n", ttos(numOctal))
-	fmt.Printf("numHexadecimal type is %s \n", ttos(numHexadecimal))
-	fmt.Printf("pi type is %s \n", ttos(pi))
-	fmt.Printf("name type is %s \n", ttos(name))
-	fmt.Printf("isActive type is %s \n", ttos(isActive))
-	fmt.Printf("complexNum type is %s \n", ttos(complexNum))
+	fmt.Println("numDecimal type is", ttos(numDecimal))
+	fmt.Println("numOctal type is", ttos(numOctal))
+	fmt.Println("numHexadecimal type is", ttos(numHexadecimal))
+	fmt.Println("pi type is", ttos(pi))
+	fmt.Println("name type is", ttos(name))
+	fmt.Println("isActive type is", ttos(isActive))
+	fmt.Println("complexNum type is", ttos(complexNum))
 
-	fmt.Printf("Combined: %s \n", combine(numDecimal, numOctal, numHexadecimal, pi, name, isActive, complexNum))
-	fmt.Println(toRunes(combine(numDecimal, numOctal, numHexadecimal, pi, name, isActive, complexNum)))
-	fmt.Println(sha256.Sum256([]byte(string(addSalt(toRunes(combine(numDecimal, numOctal, numHexadecimal, pi, name, isActive, complexNum)), "")))))
+	fmt.Println("Combined values:", combine(numDecimal, numOctal, numHexadecimal, pi, name, isActive, complexNum))
+	fmt.Println("combined in runes:", toRunes(combine(numDecimal, numOctal, numHexadecimal, pi, name, isActive, complexNum)))
+	fmt.Println("combined runes with salt:", string(addSalt(toRunes(combine(numDecimal, numOctal, numHexadecimal, pi, name, isActive, complexNum)), "go-2024")))
+	fmt.Println("sha256 sum:", sha256.Sum256([]byte(string(addSalt(toRunes(combine(numDecimal, numOctal, numHexadecimal, pi, name, isActive, complexNum)), "go-2024")))))
 }
