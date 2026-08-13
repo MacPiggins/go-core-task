@@ -24,7 +24,7 @@ func TestMerge(t *testing.T) {
 	want := []int{1, 2, 3, 4}
 	sort.Ints(got)
 	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("got %v, want %v", got, want)
+		t.Errorf("got %v, want %v", got, want)
 	}
 }
 
@@ -32,6 +32,6 @@ func TestMergeEmpty(t *testing.T) {
 	ch := make(chan int)
 	close(ch)
 	if _, ok := <-merge(ch); ok {
-		t.Fatal("merged channel should be closed")
+		t.Error("merged channel should be closed")
 	}
 }
