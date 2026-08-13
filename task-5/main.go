@@ -5,7 +5,7 @@ import "fmt"
 func makeSet(s []int) map[int]bool {
 	set := make(map[int]bool)
 	for _, v := range s {
-		set[v] = true
+		set[v] = false
 	}
 	return set
 }
@@ -24,8 +24,9 @@ func intersection(s1, s2 []int) (b bool, res []int) {
 	b = false
 	res = make([]int, 0)
 	for _, v := range s {
-		if _, ok := set[v]; ok {
+		if seen, ok := set[v]; ok && !seen {
 			res = append(res, v)
+			set[v] = true
 			b = true
 		}
 	}
