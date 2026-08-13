@@ -11,10 +11,11 @@ func makeFilter(s []string) map[string]struct{} {
 }
 
 func filter(s1, s2 []string) []string {
-	filter := makeFilter(s2)
-	for i, v := range s1 {
-		if _, ok := filter[v]; ok {
+	filter := makeFilter(s2)	
+	for i := 0; i < len(s1); i++ {
+		if _, ok := filter[s1[i]]; ok {
 			s1 = append(s1[:i], s1[i+1:]...)
+			i--
 		}
 	}
 	return s1
