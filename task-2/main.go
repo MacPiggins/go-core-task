@@ -7,16 +7,17 @@ import (
 
 func randSlice(n int) []int {
 	s := []int{}
-	for i := 0; i < n; i++ {
+	for range n {
 		s = append(s, rand.Int())
 	}
 	return s
 }
 
 func sliceExample(s []int) []int {
-	for i, v := range s {
-		if v%2 != 0 {
+	for i := 0; i < len(s); i++ {
+		if s[i]%2 != 0 {
 			s = removeElement(s, i)
+			i--
 		}
 	}
 	return s
@@ -34,25 +35,24 @@ func copySlice(s []int) []int {
 }
 
 func removeElement(s []int, i int) []int {
-	if i < len(s)-1 {
-		s = append(s[:i], s[i+1:]...)
-	} else {
-		s = s[:len(s)-1]
+	if i < 0 || i >= len(s) {
+		return s
 	}
+	s = append(s[:i], s[i+1:]...)
 	return s
 }
 
 func main() {
 	s := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	fmt.Println(s)
-	s = randSlice(10)
-	fmt.Println(s)
+	fmt.Println("original slice:", s)
+	s = randSlice(3)
+	fmt.Println("random slice:",s)
 	s = sliceExample(s)
-	fmt.Println(s)
+	fmt.Println("only even:",s)
 	s = addElements(s, 1234)
-	fmt.Println(s)
+	fmt.Println("add to the end:",s)
 	newS := copySlice(s)
 	s = removeElement(s, len(s)-1)
-	fmt.Println("s: ",s)
-	fmt.Println("newS: ",newS)
+	fmt.Println("s: ", s)
+	fmt.Println("newS: ", newS)
 }
