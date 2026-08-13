@@ -2,10 +2,10 @@ package main
 
 import "fmt"
 
-func makeFilter(s []string) map[string]bool {
-	filter := make(map[string]bool)
+func makeFilter(s []string) map[string]struct{} {
+	filter := make(map[string]struct{})
 	for _, v := range s {
-		filter[v] = true
+		filter[v] = struct{}{}
 	}
 	return filter
 }
